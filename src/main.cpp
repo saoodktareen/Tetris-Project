@@ -4,7 +4,7 @@
 #include "game.h"
 #include "colours.h"
 
-double lastUpdateTime = 0; // To track when last game event trigerred
+double lastUpdateTime = 0; // To track when last game event triggered
 bool EventTriggered(double interval){
     double currentTime = GetTime();
     if(currentTime - lastUpdateTime >= interval){
@@ -28,12 +28,12 @@ int main() {
     RenderTexture2D target = LoadRenderTexture(500, 620);
     Font font = LoadFontEx("Font/monogram.ttf", 64, 0, 0);
 
-    Game game = Game();  // Initializing Game instance
+    Game game = Game();  // Initializing Game
 
     while(WindowShouldClose() == false){
         game.ManageInput(); // Handling user input
 
-        double speed = 1.0 * pow(0.9, game.level - 1); // Calculating Speed at each level
+        double speed = 0.3 * pow(0.9, game.level - 1); // Calculating Speed at each level
         if(EventTriggered(speed)){
             game.MoveBlockDown();
         } 

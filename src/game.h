@@ -1,15 +1,15 @@
 #pragma once
 #include "Grid.h"
-#include "blocks.cpp"
+#include "Block.h" // Updated to include Block header for polymorphism
 using namespace std;
 
-class Game{
+class Game {
 private:
-    vector<Block> blocks; // All Block shapes
-    vector<Block> getAllBlocks(); // Initializing Blocks Set
-    Block currentBlock; // Block currently falling
-    Block nextBlock; // Next Block to fall
-    Block getRandomBlock(); // Randomly selects a Block
+    vector<Block*> blocks; // All Block shapes
+    vector<Block*> getAllBlocks(); // Initializing Blocks
+    Block* currentBlock; // Block currently falling
+    Block* nextBlock; // Next Block to fall 
+    Block* getRandomBlock(); // Randomly selects a Block
     bool isBlockOutside(); // Checks if current Block is outside grid
     bool BlockFits(); // Checks if current Block fits in current position
     void RotateBlock(); // Rotates current Block
@@ -28,5 +28,5 @@ public:
     int score; // Player Score
     int level; // Player Level
     int totalLinesCleared; // Player Lines Cleared
-    bool GameOver; // Checks if Game is over or not
+    bool GameOver; // Checks if Game is over 
 };

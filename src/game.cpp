@@ -1,4 +1,4 @@
-#include "game.h"
+#include "Game.h"
 #include <random>
 
 Game::Game() {  // Default Constructor
@@ -12,38 +12,38 @@ Game::Game() {  // Default Constructor
     totalLinesCleared = 0;
 }
 
-Block Game::getRandomBlock() { // Randomly selects a Block
+Block* Game::getRandomBlock() { // Randomly selects a Block
     if(blocks.empty()){
         blocks = getAllBlocks();
     }
 
     int RandomIndex = rand() % blocks.size();
-    Block block = blocks[RandomIndex];
+    Block* block = blocks[RandomIndex];
     blocks.erase(blocks.begin() + RandomIndex);
 
     return block;
 }
 
-vector<Block> Game::getAllBlocks() { // Initializing Blocks Set
-    return {Block_I(), Block_J(), Block_L(), Block_O(), Block_S(), Block_T(), Block_Z()};
+vector<Block*> Game::getAllBlocks() { // Initializing Blocks Set
+    return {new Block_I(), new Block_J(), new Block_L(), new Block_O(), new Block_S(), new Block_T(), new Block_Z()};
 }
 
 void Game::Draw() { // Renders elements
     grid.Draw();
-    currentBlock.Draw(11, 11);
+    currentBlock->Draw(11, 11);
 
     if(!GameOver){
-        switch(nextBlock.ID){
+        switch(nextBlock->ID){
             case 3:
-            nextBlock.Draw(257, 370);
-            break;
+                nextBlock->Draw(257, 370);
+                break;
 
             case 4:
-            nextBlock.Draw(254, 355);
-            break;
+                nextBlock->Draw(254, 355);
+                break;
 
             default:
-            nextBlock.Draw(273, 350);
+                nextBlock->Draw(273, 350);
         }
     }
 }
@@ -78,34 +78,34 @@ void Game::ManageInput() { // Handles user input
 
 void Game::MoveBlockLeft() { // Moves Block left
     if(!GameOver){
-        currentBlock.Move(0,-1);
+        currentBlock->Move(0,-1);
         if(isBlockOutside() || BlockFits() == false){
-            currentBlock.Move(0,1);
+            currentBlock->Move(0,1);
         }
     }
 }
 
 void Game::MoveBlockRight() { // Moves Block right
     if(!GameOver){
-        currentBlock.Move(0,1);
+        currentBlock->Move(0,1);
         if(isBlockOutside() || BlockFits() == false){
-            currentBlock.Move(0,-1);
+            currentBlock->Move(0,-1);
         }
     }
 }
 
 void Game::MoveBlockDown() { // Moves Block down
     if(!GameOver){
-        currentBlock.Move(1,0);
+        currentBlock->Move(1,0);
         if(isBlockOutside() || BlockFits() == false){
-            currentBlock.Move(-1,0);
+            currentBlock->Move(-1,0);
             LockBlock();
         }
     }
 }
 
 bool Game::isBlockOutside() { // Checks if current Block is outside grid
-    vector<Position> Tiles = currentBlock.getCellPositions();
+    vector<Position> Tiles = currentBlock->getCellPositions();
     for (Position item : Tiles){
         if(grid.isCellOutside(item.rows, item.cols)){
             return true;
@@ -116,17 +116,17 @@ bool Game::isBlockOutside() { // Checks if current Block is outside grid
 
 void Game::RotateBlock() { // Rotates current Block
     if(!GameOver){
-        currentBlock.Rotate();
+        currentBlock->Rotate();
         if(isBlockOutside() || BlockFits() == false){
-            currentBlock.undoRotation();
+            currentBlock->undoRotation();
         }
     }
 }
 
 void Game::LockBlock() { // Locks Block into grid when it lands
-    vector<Position> Tiles = currentBlock.getCellPositions();
+    vector<Position> Tiles = currentBlock->getCellPositions();
     for(Position item : Tiles){
-        grid.grid[item.rows][item.cols] = currentBlock.ID;
+        grid.grid[item.rows][item.cols] = currentBlock->ID;
     }
 
     currentBlock = nextBlock;
@@ -139,9 +139,8 @@ void Game::LockBlock() { // Locks Block into grid when it lands
     UpdateScore(rowsCleared, 0);
 }
 
-
 bool Game::BlockFits() { // Checks if current Block fits in current position
-    vector<Position> Tiles = currentBlock.getCellPositions();
+    vector<Position> Tiles = currentBlock->getCellPositions();
     for(Position item : Tiles){
         if(grid.isCellEmpty(item.rows, item.cols) == false){
             return false;
@@ -165,7 +164,7 @@ void Game::UpdateScore(int linesCleared, int moveDownPoints) { // Updates Score 
 
     totalLinesCleared += linesCleared;
  
-    int newLevel = totalLinesCleared / 10 + 1;
+    int newLevel = totalLinesCleared / 1 + 1;
     
     if (newLevel > level) {
         level = newLevel;
