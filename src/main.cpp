@@ -48,8 +48,7 @@ int main() {
 
         // Drawing 'Level' Box and Text
         DrawTextEx(font, "LEVEL", {345, 15}, 38, 2, WHITE);
-        DrawRectangleRounded({320, 55, 170, 60}, 0.3, 6, lightBlue); // SAOOD SARA
-        char levelText[10];
+        DrawRectangleRounded({320, 55, 170, 60}, 0.3, 6, lightBlue); 
         sprintf(levelText, "%d", game.level);
         Vector2 levelSize = MeasureTextEx(font, levelText, 38, 2);
         DrawTextEx(font, levelText, {320 + (170 - levelSize.x)/2, 65}, 38, 2, WHITE);
